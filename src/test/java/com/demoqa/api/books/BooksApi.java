@@ -5,6 +5,7 @@ import com.demoqa.api.books.models.AddBookRequestModel;
 import com.demoqa.api.books.models.DeleteBooksRequestModel;
 import com.demoqa.api.books.models.IsbnModel;
 import com.demoqa.api.books.models.NegativeBookResponseModel;
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import static io.restassured.RestAssured.given;
 
 public class BooksApi {
 
+    @Step("Добавляем книгу в коллекцию")
     public Response addBookToCollection(LoginResponseModel login, AddBookRequestModel bookData) {
         return given(bookRequestSpec)
                 .header("Authorization", "Bearer " + login.getToken())
@@ -25,6 +27,7 @@ public class BooksApi {
                 .extract().response();
     }
 
+    @Step("Добавляем книгу в коллекцию без авторизации")
     public NegativeBookResponseModel addBookToCollectionWithoutLogin(AddBookRequestModel bookData) {
         return given(bookRequestSpec)
                 .body(bookData)
@@ -35,6 +38,7 @@ public class BooksApi {
                 .extract().as(NegativeBookResponseModel.class);
     }
 
+    @Step("Добавляем дубль книги в коллекцию")
     public NegativeBookResponseModel addDuplicateBookToCollection(LoginResponseModel login, AddBookRequestModel bookData) {
         return given(bookRequestSpec)
                 .header("Authorization", "Bearer " + login.getToken())
@@ -46,6 +50,7 @@ public class BooksApi {
                 .extract().as(NegativeBookResponseModel.class);
     }
 
+    @Step("Удаляем все книги")
     public void deleteAllBooks(LoginResponseModel login) {
         given(bookRequestSpec)
                 .header("Authorization", "Bearer " + login.getToken())
@@ -56,6 +61,7 @@ public class BooksApi {
                 .spec(deleteBook204ResponseSpec);
     }
 
+    @Step("Удаляем определенную книгу")
     public void deleteCertainBook(LoginResponseModel login, DeleteBooksRequestModel deletedBookData) {
         given(bookRequestSpec)
                 .header("Authorization", "Bearer " + login.getToken())
