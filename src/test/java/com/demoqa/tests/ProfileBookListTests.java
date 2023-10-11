@@ -81,8 +81,9 @@ public class ProfileBookListTests extends TestBase {
         LoginResponseModel loginResponse = loginApi.login(credentials);
         DeleteBooksRequestModel deletedBooksData = booksApi.createDataForDeleteBookRequest(loginResponse, getISBN());
         AddBookRequestModel bookData = booksApi.createDataForAddBookRequest(loginResponse, getISBN());
-
+        booksApi.deleteAllBooks(loginResponse);
         booksApi.addBookToCollection(loginResponse, bookData);
+
         booksApi.deleteCertainBook(loginResponse, deletedBooksData);
         booksApi.addBookToCollection(loginResponse, bookData);
 
